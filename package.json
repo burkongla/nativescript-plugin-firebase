@@ -1,0 +1,8 @@
+{
+  "name": "nativescript-plugin-firebase",
+  "scripts": {
+	"install": "cd src && npm install"
+  },
+  "dependencies": {
+  }
+}
