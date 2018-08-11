@@ -736,6 +736,10 @@ export namespace firestore {
   export interface Query {
     get(): Promise<QuerySnapshot>;
 
+    startAt(...fieldValues: any[] | firestore.DocumentSnapshot): Query;
+
+    endAt(...fieldValues: any[] | firestore.DocumentSnapshot): Query;
+
     where(fieldPath: string, opStr: WhereFilterOp, value: any): Query;
 
     orderBy(fieldPath: string, directionStr: firestore.OrderByDirection): Query;

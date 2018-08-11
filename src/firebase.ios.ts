@@ -2125,6 +2125,7 @@ firebase.firestore.collection = (collectionPath: string): firestore.CollectionRe
       where: (fieldPath: string, opStr: firestore.WhereFilterOp, value: any) => firebase.firestore.where(collectionPath, fieldPath, opStr, value),
       orderBy: (fieldPath: string, directionStr: firestore.OrderByDirection): firestore.Query => firebase.firestore.orderBy(collectionPath, fieldPath, directionStr, fIRCollectionReference),
       limit: (limit: number): firestore.Query => firebase.firestore.limit(collectionPath, limit, fIRCollectionReference),
+        startAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.startAt(collectionPath, fieldValues, fIRCollectionReference),
       onSnapshot: (callback: (snapshot: QuerySnapshot) => void) => firebase.firestore.onCollectionSnapshot(fIRCollectionReference, callback)
     };
 
@@ -2436,6 +2437,8 @@ firebase.firestore._getQuery = (collectionPath: string, query: FIRQuery): firest
     where: (fp: string, os: firestore.WhereFilterOp, v: any): firestore.Query => firebase.firestore.where(collectionPath, fp, os, v, query),
     orderBy: (fp: string, directionStr: firestore.OrderByDirection): firestore.Query => firebase.firestore.orderBy(collectionPath, fp, directionStr, query),
     limit: (limit: number): firestore.Query => firebase.firestore.limit(collectionPath, limit, query),
+      startAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.startAt(collectionPath, fieldValues, query),
+      endAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.endAt(collectionPath, fieldValues, query),
     onSnapshot: (callback: (snapshot: QuerySnapshot) => void) => firebase.firestore.onCollectionSnapshot(query, callback)
   };
 };
@@ -2485,6 +2488,16 @@ firebase.firestore.orderBy = (collectionPath: string, fieldPath: string, directi
 firebase.firestore.limit = (collectionPath: string, limit: number, query: FIRQuery): firestore.Query => {
   query = query.queryLimitedTo(limit);
   return firebase.firestore._getQuery(collectionPath, query);
+};
+
+firebase.firestore.startAt = (collectionPath: string, fieldValues: any[], query: FIRQuery): firestore.Query => {
+    query = query.queryStartingAtValues(fieldValues);
+    return firebase.firestore._getQuery(collectionPath, query);
+};
+
+firebase.firestore.endAt = (collectionPath: string, fieldValues: any[], query: FIRQuery): firestore.Query => {
+    query = query.queryEndingAtValues(fieldValues);
+    return firebase.firestore._getQuery(collectionPath, query);
 };
 
 // see https://developer.apple.com/reference/usernotifications/unusernotificationcenterdelegate?language=objc

@@ -2133,6 +2133,8 @@ firebase.firestore.collection = (collectionPath: string): firestore.CollectionRe
       get: () => firebase.firestore.get(collectionPath),
       where: (fieldPath: string, opStr: firestore.WhereFilterOp, value: any) => firebase.firestore.where(collectionPath, fieldPath, opStr, value),
       orderBy: (fieldPath: string, directionStr: firestore.OrderByDirection): firestore.Query => firebase.firestore.orderBy(collectionPath, fieldPath, directionStr, collectionRef),
+        startAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.startAt(collectionPath, fieldValues, collectionRef),
+        endAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.endAt(collectionPath, fieldValues, collectionRef),
       limit: (limit: number): firestore.Query => firebase.firestore.limit(collectionPath, limit, collectionRef),
       onSnapshot: (callback: (snapshot: QuerySnapshot) => void) => firebase.firestore.onCollectionSnapshot(collectionRef, callback)
     };
@@ -2473,6 +2475,8 @@ firebase.firestore._getQuery = (collectionPath: string, query: com.google.fireba
     where: (fp: string, os: firestore.WhereFilterOp, v: any): firestore.Query => firebase.firestore.where(collectionPath, fp, os, v, query),
     orderBy: (fp: string, directionStr: firestore.OrderByDirection): firestore.Query => firebase.firestore.orderBy(collectionPath, fp, directionStr, query),
     limit: (limit: number): firestore.Query => firebase.firestore.limit(collectionPath, limit, query),
+      startAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.startAt(collectionPath, fieldValues, query),
+      endAt: (...fieldValues: any[]): firestore.Query => firebase.firestore.endAt(collectionPath, fieldValues, query),
     onSnapshot: (callback: (snapshot: QuerySnapshot) => void) => firebase.firestore.onCollectionSnapshot(query, callback)
   };
 };
@@ -2520,6 +2524,16 @@ firebase.firestore.orderBy = (collectionPath: string, fieldPath: string, directi
 firebase.firestore.limit = (collectionPath: string, limit: number, query: com.google.firebase.firestore.Query): firestore.Query => {
   query = query.limit(limit);
   return firebase.firestore._getQuery(collectionPath, query);
+};
+
+firebase.firestore.startAt = (collectionPath: string, fieldValues: any[], query: com.google.firebase.firestore.Query): firestore.Query => {
+    query = query.startAt(fieldValues);
+    return firebase.firestore._getQuery(collectionPath, query);
+};
+
+firebase.firestore.endAt = (collectionPath: string, fieldValues: any[], query: com.google.firebase.firestore.Query): firestore.Query => {
+    query = query.endAt(fieldValues);
+    return firebase.firestore._getQuery(collectionPath, query);
 };
 
 module.exports = firebase;
