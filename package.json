@@ -1,5 +1,6 @@
 {
   "name": "nativescript-plugin-firebase",
+  "version": "6.5.1",
   "scripts": {
 	"install": "cd src && npm install"
   },
